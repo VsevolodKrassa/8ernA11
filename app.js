@@ -53,8 +53,8 @@ function draw() {
         background(255, 255, 255);
         fill(0, 0, 255); // Синий цвет для текста
         textSize(32);
-        textAlign(CENTR, LEFT);
-        text('plz click', width / 2, height / 2);
+        textAlign(LEFT, CENTER);
+        text('plz click', 10, height / 2);
     } else {
         background(0);
         let tileSize = 100;

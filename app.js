@@ -2,7 +2,7 @@ let audioContext;
 let device;
 let canvas;
 
-async function setup() {
+function setup() {
     canvas = createCanvas(720, 720);
     noCursor();
 
@@ -13,17 +13,16 @@ async function setup() {
     let AudioContextConstructor = window.AudioContext || window.webkitAudioContext;
     if (AudioContextConstructor) {
         audioContext = new AudioContextConstructor();
-        try {
-            await audioContext.resume();
-            await loadRNBO(); // Инициализация и загрузка звука сразу после создания контекста
-            console.log("Аудио загружено и воспроизведение началось.");
-        } catch (error) {
-            console.error("Ошибка при воспроизведении аудио:", error);
-        }
     } else {
         console.error("Web Audio API не поддерживается в этом браузере");
     }
+
+    loadRNBO();
+
+    // Вешаем обработчик на canvas, который реагирует на клик мышью или касание экрана
+    canvas.mousePressed(startAudioContext);
 }
+
 
 async function loadRNBO() {
     const { createDevice } = RNBO; // Убедитесь, что объект RNBO доступен
@@ -39,8 +38,13 @@ async function loadRNBO() {
 
 function startAudioContext() {
     if (audioContext.state === 'suspended') {
-        audioContext.resume();
+        audioContext.resume().then(() => {
+            console.log("Audio context resumed!");
+        }).catch((error) => {
+            console.error("Ошибка при возобновлении аудиоконтекста:", error);
+        });
     }
+    // Можете добавить дополнительные действия для начала воспроизведения звуков здесь
 }
 
 let zOffset = 0; // Начальное значение для "глубины" шума Перлина

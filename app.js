@@ -52,7 +52,7 @@ function draw() {
         background(255, 255, 255);
         fill(0, 0, 255); // Синий цвет для текста
         textSize(32);
-        textAlign(CENTER);
+        textAlign(LEFT, CENTER);
         text('plz click me', 20, height / 2);
     } else {
         background(0);

@@ -4,8 +4,7 @@ let canvas;
 let isClicked = false; // Переменная для отслеживания состояния клика
 
 function setup() {
-    canvas = createCanvas(720, 720);
-    noCursor();
+    canvas = createCanvas(windowWidth, windowHeight);
 
     colorMode(RGB);
     rectMode(CENTER);
@@ -75,3 +74,9 @@ function draw() {
         zOffset += 0.03;
     }
 }
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight); // Пересоздаем холст с новыми размерами окна
+    // Здесь может потребоваться дополнительная логика для адаптации ваших графических элементов под новый размер холста
+}
+

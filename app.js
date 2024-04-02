@@ -50,7 +50,7 @@ let zOffset = 0;
 
 function draw() {
     if (!isClicked) {
-        background(0);
+        background(255);
         fill(0, 0, 255); // Синий цвет для текста
         textSize(32);
         textAlign(CENTER, CENTER);

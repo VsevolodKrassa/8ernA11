@@ -54,7 +54,7 @@ function draw() {
         fill(0, 0, 255); // Синий цвет для текста
         textSize(32);
         textAlign(CENTER);
-        text('plz click', width / 3, height / 2);
+        text('{ plz_Click_me }', width / 3.5, height / 2);
     } else {
         background(0);
         let tileSize = 100;

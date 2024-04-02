@@ -53,7 +53,7 @@ function draw() {
         background(255, 255, 255);
         fill(0, 0, 255); // Синий цвет для текста
         textSize(32);
-        textAlign(CENTR, LEFT);
+        textAlign(CENTR, RIGHT);
         text('plz click', width / 2, height / 2);
     } else {
         background(0);

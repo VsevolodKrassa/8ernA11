@@ -1,21 +1,17 @@
 let audioContext;
 let device;
 let canvas;
+let isClicked = false; // Переменная для отслеживания состояния клика
 
 function setup() {
-    canvas = createCanvas(720, 720); // Убедитесь, что функция createCanvas доступна
+    canvas = createCanvas(720, 720);
     noCursor();
 
     colorMode(RGB);
-
     rectMode(CENTER);
-
     noStroke();
 
-    // Проверяем, какой конструктор доступен, и сохраняем его в переменную AudioContextConstructor
     let AudioContextConstructor = window.AudioContext || window.webkitAudioContext;
-
-    // Теперь безопасно создаем экземпляр AudioContext
     if (AudioContextConstructor) {
         audioContext = new AudioContextConstructor();
     } else {
@@ -24,14 +20,18 @@ function setup() {
 
     loadRNBO();
 
-    // Используем корректное название функции
-    canvas.mouseClicked(startAudioContext); 
+    canvas.mouseClicked(() => {
+        startAudioContext();
+        isClicked = true; // После клика изменяем состояние на true
+    });
 }
 
 async function loadRNBO() {
-    const { createDevice } = RNBO; // Убедитесь, что объект RNBO доступен
+    // Убедитесь, что объект RNBO доступен
+    const { createDevice } = RNBO;
 
-    await audioContext.resume();
+    // Здесь предполагается, что resume будет вызван позже в startAudioContext
+    // await audioContext.resume(); 
 
     const rawPatcher = await fetch('patch.export.json');
     const patcher = await rawPatcher.json();
@@ -46,27 +46,32 @@ function startAudioContext() {
     }
 }
 
-let zOffset = 0; // Начальное значение для "глубины" шума Перлина
+let zOffset = 0;
 
 function draw() {
-  background(0);
-
-  let tileSize = 100;
-  for (let x = 0; x < width; x += tileSize) {
-    for (let y = 0; y < height; y += tileSize) {
-      let noiseValue = noise(x * 0.5, y * 0.5, zOffset);
-      
-      // Использование порога для определения заполненности квадрата
-      if (noiseValue > 0.4) {
-        fill(255, 255, 255); // Если значение шума выше порога, используем белый цвет
-      } else {
-        fill(0, 0, 255); // Если значение шума ниже порога, используем черный цвет
-      }
-      
-      noStroke();
-      rect(x, y, tileSize, tileSize);
+    if (!isClicked) {
+        background(0);
+        fill(0, 0, 255); // Синий цвет для текста
+        textSize(32);
+        textAlign(CENTER, CENTER);
+        text('plz click', width / 2, height / 2);
+    } else {
+        background(0);
+        let tileSize = 100;
+        for (let x = 0; x < width; x += tileSize) {
+            for (let y = 0; y < height; y += tileSize) {
+                let noiseValue = noise(x * 0.5, y * 0.5, zOffset);
+                
+                if (noiseValue > 0.4) {
+                    fill(255, 255, 255); // Белый цвет
+                } else {
+                    fill(0, 0, 255); // Синий цвет
+                }
+                
+                noStroke();
+                rect(x, y, tileSize, tileSize);
+            }
+        }
+        zOffset += 0.03;
     }
-  }
-
-  zOffset += 0.03; // Меняем zOffset для динамичности паттерна
 }

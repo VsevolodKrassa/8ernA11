@@ -55,7 +55,7 @@ function draw() {
         textAlign(LEFT, CENTER);
         text('plz click me', 20, height / 2);
     } else {
-        background(0);
+        background(255, 255, 255);
         let tileSize = 100;
         for (let x = 0; x < width; x += tileSize) {
             for (let y = 0; y < height; y += tileSize) {

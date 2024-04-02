@@ -3,14 +3,19 @@ let device;
 let canvas;
 
 function setup() {
-    canvas = createCanvas(720, 720);
+    canvas = createCanvas(720, 720); // Убедитесь, что функция createCanvas доступна
     noCursor();
 
     colorMode(RGB);
+
     rectMode(CENTER);
+
     noStroke();
 
+    // Проверяем, какой конструктор доступен, и сохраняем его в переменную AudioContextConstructor
     let AudioContextConstructor = window.AudioContext || window.webkitAudioContext;
+
+    // Теперь безопасно создаем экземпляр AudioContext
     if (AudioContextConstructor) {
         audioContext = new AudioContextConstructor();
     } else {
@@ -19,10 +24,9 @@ function setup() {
 
     loadRNBO();
 
-    // Вешаем обработчик на canvas, который реагирует на клик мышью или касание экрана
-    canvas.mousePressed(startAudioContext);
+    // Используем корректное название функции
+    canvas.mouseClicked(startAudioContext); 
 }
-
 
 async function loadRNBO() {
     const { createDevice } = RNBO; // Убедитесь, что объект RNBO доступен
@@ -38,13 +42,8 @@ async function loadRNBO() {
 
 function startAudioContext() {
     if (audioContext.state === 'suspended') {
-        audioContext.resume().then(() => {
-            console.log("Audio context resumed!");
-        }).catch((error) => {
-            console.error("Ошибка при возобновлении аудиоконтекста:", error);
-        });
+        audioContext.resume();
     }
-    // Можете добавить дополнительные действия для начала воспроизведения звуков здесь
 }
 
 let zOffset = 0; // Начальное значение для "глубины" шума Перлина
@@ -71,4 +70,3 @@ function draw() {
 
   zOffset += 0.03; // Меняем zOffset для динамичности паттерна
 }
-

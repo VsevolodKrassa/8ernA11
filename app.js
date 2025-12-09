@@ -1,7 +1,7 @@
 let audioContext;
 let device;
 let canvas;
-let isClicked = false; // Переменная для отслеживания состояния клика
+let isClicked = false;
 
 function setup() {
     canvas = createCanvas(windowWidth, windowHeight);
@@ -21,17 +21,12 @@ function setup() {
 
     canvas.mouseClicked(() => {
         startAudioContext();
-        isClicked = true; // После клика изменяем состояние на true
+        isClicked = true;
     });
 }
 
 async function loadRNBO() {
-    // Убедитесь, что объект RNBO доступен
     const { createDevice } = RNBO;
-
-    // Здесь предполагается, что resume будет вызван позже в startAudioContext
-    // await audioContext.resume(); 
-
     const rawPatcher = await fetch('patch.export.json');
     const patcher = await rawPatcher.json();
 
@@ -50,7 +45,7 @@ let zOffset = 0;
 function draw() {
     if (!isClicked) {
         background(255, 255, 255);
-        fill(0, 0, 255); // Синий цвет для текста
+        fill(0, 0, 255);
         textSize(32);
         textAlign(LEFT, CENTER);
         text('plz click me', 20, height / 2);
@@ -62,9 +57,9 @@ function draw() {
                 let noiseValue = noise(x * 0.5, y * 0.5, zOffset);
                 
                 if (noiseValue > 0.4) {
-                    fill(255, 255, 255); // Белый цвет
+                    fill(255, 255, 255);
                 } else {
-                    fill(0, 0, 255); // Синий цвет
+                    fill(0, 0, 255);
                 }
                 
                 noStroke();
@@ -76,7 +71,7 @@ function draw() {
 }
 
 function windowResized() {
-    resizeCanvas(windowWidth, windowHeight); // Пересоздаем холст с новыми размерами окна
-    // Здесь может потребоваться дополнительная логика для адаптации ваших графических элементов под новый размер холста
+    resizeCanvas(windowWidth, windowHeight);
 }
+
 
